@@ -1,0 +1,8 @@
+<manifest>
+    <App>
+        <name>STE Launcher</name>
+        <description>This is the default launcher developed by Solar Team Eindhoven</description>
+        <category>launcher</category>
+	<entrypoint type="qml">Launcher.qml</entrypoint>
+    </App>
+</manifest>
