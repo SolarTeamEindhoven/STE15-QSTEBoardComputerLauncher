@@ -21,7 +21,7 @@ import QtQuick.Window 2.2
 
 import nl.solarteameindhoven.sdk 1.0
 
-VehicleLauncher {
+BCVehicleLauncher {
     id: launcher
     anchors.fill: parent
 
@@ -38,7 +38,7 @@ VehicleLauncher {
 
         color: "#aaa"
 
-        VehicleAppContainer {
+        BCVehicleAppContainer {
             id: navigationAppViewer
             bccontrolBarHardwareInterface: controlBarHardwareInterface
 
@@ -49,7 +49,7 @@ VehicleLauncher {
             height: parent.height / 4
         }
 
-        VehicleAppContainer {
+        BCVehicleAppContainer {
             id: audioAppViewer
             bccontrolBarHardwareInterface: controlBarHardwareInterface
 
@@ -60,7 +60,7 @@ VehicleLauncher {
             height: parent.height / 4
         }
 
-        VehicleAppContainer {
+        BCVehicleAppContainer {
             id: configAppViewer
             bccontrolBarHardwareInterface: controlBarHardwareInterface
 
@@ -71,7 +71,7 @@ VehicleLauncher {
             height: parent.height / 4
         }
 
-        VehicleAppContainer {
+        BCVehicleAppContainer {
             id: infoAppViewer
             bccontrolBarHardwareInterface: controlBarHardwareInterface
 
