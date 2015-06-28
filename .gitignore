@@ -1,3 +1,8 @@
-build/
-*.pro.user
-*.user
+# Build folder
+/build/
+
+# Qt creator settings
+*.pro.user.*
+
+# OSx
+**/.DS_Store
