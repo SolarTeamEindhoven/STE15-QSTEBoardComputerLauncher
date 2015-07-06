@@ -18,6 +18,7 @@
 
 import QtQuick 2.4
 import QtQuick.Window 2.2
+import QtGraphicalEffects 1.0
 
 import nl.solarteameindhoven.sdk 1.0
 
@@ -25,17 +26,67 @@ BCVehicleLauncher {
     id: launcher
     anchors.fill: parent
 
-    onAppsChanged: {
-        if(apps.length > 0)
-        {
-            navigationAppViewer.app = apps[0]
+    // App manager
+    BCAppManager {
+        id: appManager
+
+        onAvailableAppsChanged: {
+            for (var i = 0; i < availableApps.length; i++)
+            {
+                if (availableApps[i].category === "navigation") {
+                    navigationAppViewer.app = getApp(availableApps[i]);
+                } else if (availableApps[i].category === "audio") {
+                    audioAppViewer.app = getApp(availableApps[i]);
+                } else if (availableApps[i].category === "configuration") {
+                    configAppViewer.app = getApp(availableApps[i]);
+                } else if (availableApps[i].category === "info") {
+                    infoAppViewer.app = getApp(availableApps[i]);
+                }
+            }
         }
     }
 
+    // Header / info display
+    Rectangle {
+        id: infoRegion
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        height: 50
+        color: "#000"
+
+        // Date & time display
+        Rectangle {
+            anchors.right: parent.right
+            id: dateTimeRegion
+            Text {
+                id: timeRegion
+                color: "#FFF"
+                anchors.top: parent.top
+                anchors.right: parent.right
+                text: Qt.formatDateTime(new Date(), "hh:mm");
+            }
+            Text {
+                id: dateRegion
+                color: "#FFF"
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                text: Qt.formatDateTime(new Date(), "MMM dd");
+            }
+            Timer {
+                interval: 1000; running: true; repeat: true
+                onTriggered: timeRegion.text = Qt.formatDateTime(new Date(), "hh:mm")
+            }
+        }
+    }
+
+    // Application content
     Rectangle {
         id: appRegion
-        anchors.fill: parent
-
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.top: infoRegion.bottom
         color: "#aaa"
 
         BCVehicleAppContainer {
@@ -45,6 +96,8 @@ BCVehicleLauncher {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
+
+            anchors.topMargin: 10
 
             height: parent.height / 4
         }
@@ -57,6 +110,8 @@ BCVehicleLauncher {
             anchors.right: parent.right
             anchors.top: navigationAppViewer.bottom
 
+            anchors.topMargin: 10
+
             height: parent.height / 4
         }
 
@@ -67,6 +122,8 @@ BCVehicleLauncher {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: audioAppViewer.bottom
+
+            anchors.topMargin: 10
 
             height: parent.height / 4
         }
@@ -79,10 +136,14 @@ BCVehicleLauncher {
             anchors.right: parent.right
             anchors.top: configAppViewer.bottom
             anchors.bottom: parent.bottom
+
+            anchors.topMargin: 10
+
+            height: parent.height / 4
         }
     }
 
-
+    // Control bar
     BCControlBarHardwareInterface {
         id: controlBarHardwareInterface
 
